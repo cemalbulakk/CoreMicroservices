@@ -1,11 +1,8 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Shared.ControllerBase;
-using Shared.Dtos;
 using Tenant.Application.CQRS.Commands.Request;
 using Tenant.Application.CQRS.Queries.Request;
-using Tenant.Application.CQRS.Queries.Response;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,11 +13,10 @@ namespace Tenant.API.Controllers
     public class TenantController : CustomBaseController
     {
         private readonly IMediator _mediator;
-        private readonly IMapper _mapper;
-        public TenantController(IMediator mediator, IMapper mapper)
+
+        public TenantController(IMediator mediator)
         {
             _mediator = mediator;
-            _mapper = mapper;
         }
 
         [HttpPost]

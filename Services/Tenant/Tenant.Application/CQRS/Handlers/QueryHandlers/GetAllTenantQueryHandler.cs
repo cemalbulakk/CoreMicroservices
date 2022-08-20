@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Shared.Dtos;
+using Tenant.Application.CQRS.Commands.Response;
 using Tenant.Application.CQRS.Queries.Request;
 using Tenant.Application.CQRS.Queries.Response;
 using Tenant.Infrastructure.Context;
@@ -19,13 +20,20 @@ public class GetAllTenantQueryHandler : IRequestHandler<GetAllTenantQueryRequest
 
     public async Task<Response<List<GetAllTenantQueryResponse>>> Handle(GetAllTenantQueryRequest request, CancellationToken cancellationToken)
     {
-        var tenants = await _tenantDbContext.Tenants.AsNoTracking().Select(tenant => new GetAllTenantQueryResponse()
+        try
         {
-            ID = tenant.ID,
-            TenantCode = tenant.TenantCode,
-            TenantName = tenant.TenantName,
-        }).Skip(request.RequestParameter.Skip).Take(request.RequestParameter.Take).ToListAsync(cancellationToken: cancellationToken);
+            var tenants = await _tenantDbContext.Tenants.AsNoTracking().Select(tenant => new GetAllTenantQueryResponse()
+            {
+                ID = tenant.ID,
+                TenantCode = tenant.TenantCode,
+                TenantName = tenant.TenantName,
+            }).Skip(request.RequestParameter.Skip).Take(request.RequestParameter.Take).ToListAsync(cancellationToken: cancellationToken);
 
-        return Response<List<GetAllTenantQueryResponse>>.Success(tenants, 200, string.Empty);
+            return Response<List<GetAllTenantQueryResponse>>.Success(tenants, 200, string.Empty);
+        }
+        catch (Exception e)
+        {
+            return Response<List<GetAllTenantQueryResponse>>.Fail(e.Message, 500);
+        }
     }
 }
