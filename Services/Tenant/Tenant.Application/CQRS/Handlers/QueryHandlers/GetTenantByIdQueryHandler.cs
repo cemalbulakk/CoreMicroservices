@@ -23,6 +23,6 @@ public class GetTenantByIdQueryHandler : IRequestHandler<GetTenantByIdQueryReque
         var tenant = await _tenantDbContext.Tenants.FindAsync(request.Id);
         if (tenant == null) return Response<GetAllTenantQueryResponse>.Fail("Tenant is not found", 404);
         var map = _mapper.Map<GetAllTenantQueryResponse>(tenant);
-        return Response<GetAllTenantQueryResponse>.Success(map, 200);
+        return Response<GetAllTenantQueryResponse>.Success(map, 200, string.Empty);
     }
 }

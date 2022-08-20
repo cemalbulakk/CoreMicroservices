@@ -50,9 +50,19 @@ namespace Tenant.API.Controllers
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateTenant([FromBody] UpdateTenantCommandRequest updateTenantCommandRequest)
         {
             return CreateActionResultInstance(await _mediator.Send(updateTenantCommandRequest));
+        }
+
+        [HttpDelete]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteTenant(Guid id)
+        {
+            return CreateActionResultInstance(await _mediator.Send(new DeleteTenantCommandRequest(id)));
         }
     }
 }

@@ -26,6 +26,6 @@ public class GetAllTenantQueryHandler : IRequestHandler<GetAllTenantQueryRequest
             TenantName = tenant.TenantName,
         }).Skip(request.RequestParameter.Skip).Take(request.RequestParameter.Take).ToListAsync(cancellationToken: cancellationToken);
 
-        return Response<List<GetAllTenantQueryResponse>>.Success(tenants, 200);
+        return Response<List<GetAllTenantQueryResponse>>.Success(tenants, 200, string.Empty);
     }
 }

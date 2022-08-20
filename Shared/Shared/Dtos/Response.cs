@@ -13,14 +13,28 @@ public class Response<T>
 
     public List<string> Errors { get; set; }
 
-    public static Response<T> Success(T data, int statusCode)
+    public string? Message { get; set; }
+
+    public static Response<T> Success(T data, int statusCode, string? message)
     {
-        return new Response<T> { Data = data, StatusCode = statusCode, IsSuccessful = true };
+        return new Response<T>
+        {
+            Data = data,
+            StatusCode = statusCode,
+            IsSuccessful = true,
+            Message = message ?? string.Empty
+        };
     }
 
-    public static Response<T?> Success(int statusCode)
+    public static Response<T> Success(int statusCode, string? message)
     {
-        return new Response<T?> { Data = default(T), StatusCode = statusCode, IsSuccessful = true };
+        return new Response<T>
+        {
+            Data = default(T),
+            StatusCode = statusCode,
+            IsSuccessful = true,
+            Message = message ?? string.Empty
+        };
     }
 
     public static Response<T> Fail(List<string> errors, int statusCode)

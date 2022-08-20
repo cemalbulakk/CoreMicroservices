@@ -24,7 +24,7 @@ public class CreateTenantCommandHandler : IRequestHandler<CreateTenantCommandReq
         await _tenantDbContext.Tenants.AddAsync(tenant, cancellationToken);
         var result = await _tenantDbContext.SaveChangesAsync(cancellationToken);
         return result > 0
-            ? Response<CreateTenantCommandResponse>.Success(_mapper.Map<CreateTenantCommandResponse>(tenant), 200)
+            ? Response<CreateTenantCommandResponse>.Success(_mapper.Map<CreateTenantCommandResponse>(tenant), 200, "tenant created")
             : Response<CreateTenantCommandResponse>.Fail("tenant is not created", 400);
     }
 }

@@ -23,13 +23,13 @@ public class UpdateTenantCommandHandler : IRequestHandler<UpdateTenantCommandReq
     {
 
         var tenant = await _tenantDbContext.Tenants.FindAsync(request.ID);
-        if (tenant == null) return Response<UpdateTenantCommandResponse>.Fail("tenant is not found!", 404);
+        if (tenant == null) return Response<UpdateTenantCommandResponse>.Fail("tenant not found!", 404);
 
         var map = _mapper.Map(request, tenant);
         _tenantDbContext.Tenants.Update(map);
         var result = await _tenantDbContext.SaveChangesAsync(cancellationToken);
         return result > 0
-            ? Response<UpdateTenantCommandResponse>.Success(_mapper.Map<UpdateTenantCommandResponse>(tenant), 200)
-            : Response<UpdateTenantCommandResponse>.Fail("tenant is not updated", 400);
+            ? Response<UpdateTenantCommandResponse>.Success(_mapper.Map<UpdateTenantCommandResponse>(tenant), 200, "Tenant updated.")
+            : Response<UpdateTenantCommandResponse>.Fail("tenant not updated", 400);
     }
 }
