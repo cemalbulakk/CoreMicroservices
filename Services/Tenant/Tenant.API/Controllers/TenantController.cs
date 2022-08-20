@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Shared.ControllerBase;
 using Shared.Dtos;
@@ -15,9 +16,11 @@ namespace Tenant.API.Controllers
     public class TenantController : CustomBaseController
     {
         private readonly IMediator _mediator;
-        public TenantController(IMediator mediator)
+        private readonly IMapper _mapper;
+        public TenantController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
+            _mapper = mapper;
         }
 
         [HttpPost]
@@ -25,8 +28,7 @@ namespace Tenant.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetAllTenant(GetAllTenantQueryRequest request)
         {
-            var result = await _mediator.Send(new GetAllTenantQueryRequest(request.RequestParameter));
-            return CreateActionResultInstance(result);
+            return CreateActionResultInstance(await _mediator.Send(new GetAllTenantQueryRequest(request.RequestParameter)));
         }
 
         [HttpGet]
@@ -34,19 +36,23 @@ namespace Tenant.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetTenantById(Guid id)
         {
-            var result = await _mediator.Send(new GetTenantByIdQueryRequest(id));
-            return CreateActionResultInstance(Response<GetAllTenantQueryResponse>.Success(result, 200));
+            return CreateActionResultInstance(await _mediator.Send(new GetTenantByIdQueryRequest(id)));
         }
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> AddTenant([FromBody] CreateTenantCommandRequest tenantCreateDto)
+        public async Task<IActionResult> AddTenant([FromBody] CreateTenantCommandRequest createTenantCommandRequest)
         {
-            var result = await _mediator.Send(new CreateTenantCommandRequest() { TenantCode = tenantCreateDto.TenantCode, TenantName = tenantCreateDto.TenantName });
-            return result
-                ? CreateActionResultInstance(Response<NoContent>.Success(200))
-                : CreateActionResultInstance(Response<NoContent>.Fail("Tenant is not create", 400));
+            return CreateActionResultInstance(await _mediator.Send(createTenantCommandRequest));
+        }
+
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> UpdateTenant([FromBody] UpdateTenantCommandRequest updateTenantCommandRequest)
+        {
+            return CreateActionResultInstance(await _mediator.Send(updateTenantCommandRequest));
         }
     }
 }

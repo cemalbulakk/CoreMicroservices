@@ -37,6 +37,8 @@ public partial class TenantDbContext
                                 tractable.UpdateDate = now;
                                 tractable.UpdateBy = Guid.NewGuid();//1
                                 break;
+                            default:
+                                throw new ArgumentOutOfRangeException();
                         }
 
                         break;

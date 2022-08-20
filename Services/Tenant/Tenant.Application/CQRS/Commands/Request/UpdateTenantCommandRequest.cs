@@ -4,8 +4,9 @@ using Tenant.Application.CQRS.Commands.Response;
 
 namespace Tenant.Application.CQRS.Commands.Request;
 
-public class CreateTenantCommandRequest : IRequest<Response<CreateTenantCommandResponse>>
+public class UpdateTenantCommandRequest : IRequest<Response<UpdateTenantCommandResponse>>
 {
+    public Guid ID { get; set; }
     public string TenantCode { get; set; }
-    public string TenantName { get; set; } 
+    public string TenantName { get; set; }
 }
