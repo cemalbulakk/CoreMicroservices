@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="CQRS\Commands\Request\" />
+    <Folder Include="CQRS\Commands\Response\" />
+    <Folder Include="CQRS\Handlers\CommandHandlers\" />
+    <Folder Include="CQRS\Handlers\QueryHandlers\" />
+    <Folder Include="CQRS\Queries\Response\" />
+    <Folder Include="CQRS\Queries\Request\" />
+    <Folder Include="Mapping\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="MediatR" Version="10.0.1" />
+    <PackageReference Include="MediatR.Contracts" Version="1.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Shared\Shared\Shared.csproj" />
+    <ProjectReference Include="..\Tenant.Domain\Tenant.Domain.csproj" />
+    <ProjectReference Include="..\Tenant.Infrastructure\Tenant.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
