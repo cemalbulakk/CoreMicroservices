@@ -1,8 +1,8 @@
 ﻿namespace Shared.Dtos;
 
-public class RequestParameter
+public abstract class RequestParameter
 {
-    public RequestParameter(int skip = 0, int take = 10)
+    protected RequestParameter(int skip = 0, int take = 10)
     {
         Skip = skip;
         Take = take == 0 ? 10 : take;
